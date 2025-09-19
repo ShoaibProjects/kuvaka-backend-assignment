@@ -3,12 +3,11 @@ const multer = require('multer');
 const leadController = require('../controllers/lead.controller');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.post('/offer', leadController.saveOffer);
 router.post('/leads/upload', upload.single('leadsFile'), leadController.uploadLeads);
 router.post('/score', leadController.scoreLeads);
 router.get('/results', leadController.getResults);
-
 
 module.exports = router;
