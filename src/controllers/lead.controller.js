@@ -1,14 +1,16 @@
 const Papa = require('papaparse');
 const fs = require('fs');
 const storageService = require('../services/storage.service');
+const aiService = require('../services/ai.service');
+const scoringService = require('../services/scoring.service'); // Note: Added this require statement for the scoringService reference
 
-const saveOffer = (req, res) => {
+const saveOffer = async (req, res) => {
     try {
         const offerData = req.body;
         if (!offerData || Object.keys(offerData).length === 0) {
             return res.status(400).send({ message: 'Offer data cannot be empty.' });
         }
-        storageService.saveData('offer', offerData);
+        await storageService.saveData(storageService.FILE_KEYS.OFFER, offerData);
         res.status(200).send({ message: 'Offer data saved successfully.', data: offerData });
     } catch (error) {
         res.status(500).send({ message: 'Error saving offer data.', error: error.message });
@@ -26,9 +28,9 @@ const uploadLeads = (req, res) => {
     Papa.parse(csvFile, {
         header: true,
         skipEmptyLines: true,
-        complete: (results) => {
+        complete: async (results) => { // Made this callback async
             try {
-                storageService.saveData('leads', results.data);
+                await storageService.saveData(storageService.FILE_KEYS.LEADS, results.data);
                 res.status(200).send({ message: `${results.data.length} leads uploaded and saved successfully.` });
             } catch (error) {
                 res.status(500).send({ message: 'Error saving leads data.', error: error.message });
@@ -40,17 +42,13 @@ const uploadLeads = (req, res) => {
     });
 };
 
-const storageService = require('../services/storage.service');
-const aiService = require('../services/ai.service');
-const scoringService = require('../services/scoring.service');
-
 const scoreLeads = async (req, res) => {
     console.log('Scoring process initiated...');
 
-    const offerData = storageService.readData('offer');
-    const leads = storageService.readData('leads');
+    const offerData = await storageService.readData(storageService.FILE_KEYS.OFFER);
+    const leads = await storageService.readData(storageService.FILE_KEYS.LEADS);
 
-    if (!offerData || !leads || leads.length === 0) {
+    if (!offerData || !Array.isArray(leads) || leads.length === 0) {
         return res.status(400).send({ message: 'Please upload offer data and leads first.' });
     }
 
@@ -60,7 +58,7 @@ const scoreLeads = async (req, res) => {
         const ruleScore = scoringService.calculateRuleScore(lead, offerData);
         const aiResult = await aiService.getAiScore(lead, offerData);
 
-        const finalScore = ruleScore + aiResult.score; [cite_start]// [cite: 32]
+        const finalScore = ruleScore + aiResult.score;
         
         let intent = 'Low';
         if (finalScore >= 75) { intent = 'High'; } 
@@ -76,12 +74,12 @@ const scoreLeads = async (req, res) => {
         });
     }
 
-    storageService.saveData('results', scoredResults);
+    await storageService.saveData(storageService.FILE_KEYS.RESULTS, scoredResults);
     res.status(200).send({ message: `Scoring complete for ${scoredResults.length} leads.` });
 };
 
-const getResults = (req, res) => {
-    const results = storageService.readData('results');
+const getResults = async (req, res) => {
+    const results = await storageService.readData(storageService.FILE_KEYS.RESULTS);
     if (!results) {
         return res.status(404).send({ message: 'No results found. Please run the scoring first.' });
     }

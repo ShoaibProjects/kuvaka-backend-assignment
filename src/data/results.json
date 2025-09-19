@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ava Patel",
+    "role": "Head of Growth",
+    "company": "FlowMetrics",
+    "intent": "Medium",
+    "score": 50,
+    "reasoning": "Error from AI API."
+  },
+  {
+    "name": "Ben Carter",
+    "role": "Marketing Manager",
+    "company": "DataCorp",
+    "intent": "Low",
+    "score": 30,
+    "reasoning": "Error from AI API."
+  },
+  {
+    "name": "Chloe Davis",
+    "role": "Student",
+    "company": "University of Arts",
+    "intent": "Low",
+    "score": 10,
+    "reasoning": "Error from AI API."
+  }
+]

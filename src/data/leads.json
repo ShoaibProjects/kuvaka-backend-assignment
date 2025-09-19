@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ava Patel",
+    "role": "Head of Growth",
+    "company": "FlowMetrics",
+    "industry": "B2B SaaS mid-market",
+    "location": "New York",
+    "linkedin_bio": "Leads growth strategies for SaaS companies."
+  },
+  {
+    "name": "Ben Carter",
+    "role": "Marketing Manager",
+    "company": "DataCorp",
+    "industry": "Enterprise Software",
+    "location": "London",
+    "linkedin_bio": "Manages marketing campaigns for enterprise solutions."
+  },
+  {
+    "name": "Chloe Davis",
+    "role": "Student",
+    "company": "University of Arts",
+    "industry": "Education",
+    "location": "Paris",
+    "linkedin_bio": "Studying graphic design."
+  }
+]

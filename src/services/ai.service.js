@@ -16,7 +16,7 @@ async function getAiScore(lead, offer) {
 
     try {
         const response = await axios.post(
-            `https://generativelangugage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
             { contents: [{ parts: [{ text: prompt }] }] }
         );
 
@@ -30,7 +30,7 @@ async function getAiScore(lead, offer) {
             score = 30;
         }
         
-        return { score, reasoning }; [cite_start]
+        return { score, reasoning };
     } catch (error) {
         console.error('Error calling AI API:', error.response ? error.response.data : error.message);
         return { score: 0, reasoning: 'Error from AI API.' };
