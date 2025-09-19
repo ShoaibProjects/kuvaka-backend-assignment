@@ -40,8 +40,57 @@ const uploadLeads = (req, res) => {
     });
 };
 
+const storageService = require('../services/storage.service');
+const aiService = require('../services/ai.service');
+const scoringService = require('../services/scoring.service');
+
+const scoreLeads = async (req, res) => {
+    console.log('Scoring process initiated...');
+
+    const offerData = storageService.readData('offer');
+    const leads = storageService.readData('leads');
+
+    if (!offerData || !leads || leads.length === 0) {
+        return res.status(400).send({ message: 'Please upload offer data and leads first.' });
+    }
+
+    const scoredResults = [];
+    
+    for (const lead of leads) {
+        const ruleScore = scoringService.calculateRuleScore(lead, offerData);
+        const aiResult = await aiService.getAiScore(lead, offerData);
+
+        const finalScore = ruleScore + aiResult.score; [cite_start]// [cite: 32]
+        
+        let intent = 'Low';
+        if (finalScore >= 75) { intent = 'High'; } 
+        else if (finalScore >= 50) { intent = 'Medium'; }
+        
+        scoredResults.push({
+            name: lead.name,
+            role: lead.role,
+            company: lead.company,
+            intent: intent,
+            score: finalScore,
+            reasoning: aiResult.reasoning
+        });
+    }
+
+    storageService.saveData('results', scoredResults);
+    res.status(200).send({ message: `Scoring complete for ${scoredResults.length} leads.` });
+};
+
+const getResults = (req, res) => {
+    const results = storageService.readData('results');
+    if (!results) {
+        return res.status(404).send({ message: 'No results found. Please run the scoring first.' });
+    }
+    res.status(200).json(results);
+};
 
 module.exports = {
     saveOffer,
     uploadLeads,
+    scoreLeads,
+    getResults,
 };

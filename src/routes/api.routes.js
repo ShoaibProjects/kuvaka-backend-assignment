@@ -7,6 +7,8 @@ const upload = multer({ dest: 'uploads/' });
 
 router.post('/offer', leadController.saveOffer);
 router.post('/leads/upload', upload.single('leadsFile'), leadController.uploadLeads);
+router.post('/score', leadController.scoreLeads);
+router.get('/results', leadController.getResults);
 
 
 module.exports = router;
