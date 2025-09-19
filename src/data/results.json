@@ -3,24 +3,24 @@
     "name": "Ava Patel",
     "role": "Head of Growth",
     "company": "FlowMetrics",
-    "intent": "Medium",
-    "score": 50,
-    "reasoning": "Error from AI API."
+    "intent": "High",
+    "score": 100,
+    "reasoning": "Ava is a Head of Growth at a B2B SaaS mid-market company, perfectly matching the ICP. Her role directly aligns with the product's value propositions of increasing outreach and meetings, making her highly likely to be interested in a solution that drives growth."
   },
   {
     "name": "Ben Carter",
     "role": "Marketing Manager",
     "company": "DataCorp",
-    "intent": "Low",
-    "score": 30,
-    "reasoning": "Error from AI API."
+    "intent": "Medium",
+    "score": 60,
+    "reasoning": "The lead's role as Marketing Manager directly aligns with the product's value proposition of increasing meetings and outreach. However, their company's industry being 'Enterprise Software' deviates from the 'B2B SaaS mid-market' ideal customer profile, potentially indicating a less perfect fit in terms of company size or operational complexity."
   },
   {
     "name": "Chloe Davis",
     "role": "Student",
     "company": "University of Arts",
     "intent": "Low",
-    "score": 10,
-    "reasoning": "Error from AI API."
+    "score": 20,
+    "reasoning": "The lead is a student studying graphic design, which does not align with the product's ideal customer profile of 'B2B SaaS mid-market' or its value propositions of generating meetings for business outreach."
   }
 ]
